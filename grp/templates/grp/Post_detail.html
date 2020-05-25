@@ -1,0 +1,57 @@
+
+{% extends "users/base.html" %}
+{% block content %}
+      <div class='row'>
+        <div class='col-sm-3'></div>
+        <div class='col-sm-5'><div class="display-4">Welcome , {{user.username}}! </div></div>
+        <div class='col-sm-1'></div>
+        <div class='col-sm-3'></div>
+      </div>	
+      <br>
+      <div class ='row'>
+          <div class='col-sm-2'></div>
+          <div class="col-sm-5 border p-3">
+             <legend class="border-bottom mb-4"><h3>Posts</h3></legend>
+             <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ object.author }}</a>
+                  <small class="text-muted">{{ object.date_posted}}</small>
+                  <small class="mr-2" >Comments: {{object.comments.count }}</small>
+                  <a href="{% url 'post-comment' object.id %}"><button class='btn btn-info btn-sm mt-1 mb-1 '> <strong>+</strong> Comment </button></a>
+                  
+                </div>
+                <p class="article-content">{{ post.content }}</p>
+                {% if object.author == user %}
+                <div>
+                    <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+                    <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                </div>
+            {% endif %}
+
+            {% for comment in object.comments.all %}
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ comment.author.profile.image.url }}">
+                <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ comment.author }}</a>
+                    <small class="text-muted">{{ comment.date_posted}}</small>
+                </div>
+                    <p class="article-content">{{ comment.text }}</p>
+                </div>
+            </article>
+        {% empty %}
+          <p>No comments here yet :(</p>
+        {% endfor %}
+              </div>
+            </article>
+            <hr>
+          </div>
+          
+      <script type="text/javascript">
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+      </script>
+{% endblock content %}

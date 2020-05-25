@@ -1,0 +1,62 @@
+{% extends "users/base2.html" %}
+{% block content %}
+  <p>Select the group you have entered during registration</p>
+  {% for group in groups %}
+    <article class="media content-section">
+        <h2><a href="{% url 'grouphome' group.group_name %}">{{group.get_group_name_display}}</a></h2>
+    </article>
+  {% endfor %}
+  <a href="{%url 'group-create' %}"><button class='btn btn-primary mx-1 '> <strong>+</strong> Create Group </button></a>
+{% endblock content %}
+
+<!-- <article class="media content-section">
+    <div class="media-body">
+      <h2><a href="{% url 'grouphome' grp.pk %}">App Development</a></h2>
+    </div>
+  </article>
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Web Development</h2>
+      <p class="article-content">Web Development section</p>
+      <div class="container">
+        <button type="button" class="btn btn-success">Join Group</button>
+      </div>
+    </div>
+  </article>
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Competitive Programming</h2>
+      <p class="article-content">Competitive Programming section</p>
+      <div class="container">
+        <button type="button" class="btn btn-success">Join Group</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Machine Learning</h2>
+      <p class="article-content">Machine Learning section</p>
+      <div class="container">
+        <button type="button" class="btn btn-success">Join Group</button>
+      </div>
+    </div>
+  </article>
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Deep Learning</h2>
+      <p class="article-content">Deep Learning section</p>
+      <div class="container">
+        <button type="button" class="btn btn-success">Join Group</button>
+      </div>
+    </div>
+  </article>
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Neural Networks</h2>
+      <p class="article-content">Neural Networks section</p>
+      <div class="container">
+        <button type="button" class="btn btn-success">Join Group</button>
+      </div>
+    </div>
+  </article> -->

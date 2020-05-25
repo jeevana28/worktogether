@@ -1,0 +1,54 @@
+{% extends "users/base.html" %}
+{% block content %}
+      <div class='row'>
+        <div class='col-sm-3'></div>
+        <div class='col-sm-5'><div class="display-4">Welcome, {{user.username}}! </div></div>
+        <div class='col-sm-1'></div>
+        <div class='col-sm-3'></div>
+      </div>	
+      <br>
+      <div class ='row'>
+          <div class='col-sm-2'></div>
+          <div class="col-sm-5 border p-3">
+             <legend class="border-bottom mb-3"><h3>Posts</h3></legend>
+            <ul>
+              {% for post in posts %}
+              <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                <div class="media-body">
+                  <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ post.author }}</a>
+                    <small class="text-muted">{{ post.date_posted}}</small>
+                    <small class="mr-2" >Comments: {{post.comments.count }}</small>
+                    </div>
+                  <p class="article-content">{{ post.content }}</p>
+                </div>
+                <a href="{% url 'post-detail' post.id %}"><button class='btn btn-info btn-sm mt-0 mb-1'>  Comments </button></a>
+              </article>
+              {% endfor %}
+            </ul>
+            <a href="{%url 'post-create' %}"><button class='btn btn-info mx-1 '> <strong>+</strong> Post </button></a>
+          </div>
+          <div class='col-sm-3'></div>
+          <div class="col-sm-2 border"> 
+              <table class="table-hover">
+               <thead>
+                 <h3>Users</h3>
+               </thead>
+               <tbody> 
+              {% for user in users %}
+              <tr class='clickable-row' data-href="{%url 'userprofile' user.user.username %}">
+                <td class='p-2'><img src="{{ user.image.url }}" class="rounded-circle" style="width:36px;height:36px;"></td>
+                <td class='p-2'>{{user.user.username}}</td>
+              </tr>
+              {% endfor %}
+              </tbody>
+              </table>
+          </div>
+      </div>
+      <script type="text/javascript">
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+      </script>
+{% endblock content %}

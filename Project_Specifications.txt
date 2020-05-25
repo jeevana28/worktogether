@@ -1,0 +1,60 @@
+-------Problem Statement-------
+    The problems faced by students are
+        1)Finding other students with common academic or extracurricular interests. 
+        2)Lack of proper guidance
+        3)Clarification of doubt when one is learning something new.
+    By connecting with other people with common interests you will have better support systems who know what you are 
+    going through and can share their trials and victories with you. Also when a student first enters a college it's 
+    difficult for him/her to find suitable on-campus clubs. So, it is necessary to have an application that addresses 
+    this need by which students can connect with others easily and work and learn together. 
+
+    This can be addressed by creating a software where a student can register themselves and login. There will be 
+    various groups available here like hobbies, sports and fitness, technology, programming, competitive exams etc., 
+    The student can find his area of interest and join in that particular group. The student can add himself in the group 
+    and can collaborate with others. This also provides an option for a student to form groups internally and work.
+---------------------------------------
+
+-----Functionalities implemented from the SRS specification---------
+{
+    Login
+    Logout
+    Register with mail confirmation
+    User gets added into the group opted while registration automatically
+    Send posts in the group added
+    Comment on the posts in the respective groups
+    Connect with people by seding requests
+    Send and receive messages(Message reloading periodically for every 5 secs)
+    Notifications when one sends request or message
+    View profile and connections of other user in same group(dynamic url + messages)
+    Edit ones profile
+    Send request to the admin to create a new group
+}
+-----------------------------
+
+---------------Interfaces--------------
+1) Frontend interfaces: The frontend of this project is coded in
+  i) HTML and CSS
+  ii) BOOTSTRAP4 (a CSS framework for styling)
+  iii)jQuery to execute ajax on webpages
+
+2) Backend:
+    Django: Django is web application framework written in PYTHON. It has 
+            inbuilt template engine which can be used to design front-end.
+
+3) Networking Protocols: HTTPS/HTTP, 
+                         SMTP - to send emails
+4) Database: sqlite3
+5) Ajax is used to create dynamic urls and load pages periodically
+------------------------------------------
+-------Further improvements-----
+{
+    1)Notifications such that they redirect automatically to the required page
+    2)A check so that only relevant information is posted in the group
+}
+
+------------------------------------------------------------------------
+--Here messages load after 1 sec, so wait for a sec if message is not visible immediately.
+--If a user wants to create a group, the admin will get the request. Group will be created if admin approves the request.
+--User can change his group in profile settings
+--Messages are intentiionally implemented in reverse order
+----------------------------------------------------------------------------

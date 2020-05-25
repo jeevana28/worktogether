@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    
+
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    {% if title %}
+        <title>Work Together - {{ title }}</title>
+    {% else %}
+        <title>Work Together</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark" style="background-color:  #2a6679;" >
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'homepage' %}">Work Together</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'user-home' %}">Home</a>
+              {% else %}
+              <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
+              {% endif %}
+              <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="btn btn-info mx-1 my-1" href="{% url 'updateProfile' %}">Profile</a>
+                  <a class="btn btn-info mx-1 my-1" data-toggle="modal" id='notif_btn' data-target="#notifModal"> Notifications <span class="badge badge-light" id="notif_count_span">{{user.notif_count}}</span> </a>
+                  <!-- The Modal -->
+              <div class="modal" id="notifModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                  
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h1 class="modal-title">Notifications</h1>
+                      <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body" id='notif_body'>
+                      <h3>No Notifications</h3>
+                      
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+                <a class="btn btn-info mx-1 my-1" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+                <a class="btn btn-info mx-1 my-1" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-info mx-1 my-1" href="{% url 'register' %}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <div class="row">
+         <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+        <!-- <div class="col-md-4">
+          <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Latest Posts</li>
+                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+                <li class="list-group-item list-group-item-light">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div> -->
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+</body>
+
+<script type="text/javascript">
+  $('#notif_btn').click(function()                     //collecting notifs
+    {
+        $.ajax(
+        {
+          type:'GET',
+          url :"{% url 'fetchNotifs' %}",
+          data:{
+                  
+          },
+          success: function( data )
+          {
+            var gata =JSON.stringify(data);
+            var bata =JSON.parse(gata);
+            if (bata.status == "notifs found")
+            {
+              var str = "";
+              for (var i=0;i<bata.contents.length;i++)
+                str += "<b>"+bata.generators[i]+"</b> "+bata.contents[i]+"<br>";
+              $('#notif_body').html(str);
+              $('#notif_count_span').html('0')
+            }
+            else  
+              $('#notif_body').html("You're all caught up!");
+          },
+          error:function (xhr, ajaxOptions, thrownError)
+          {
+            alert(xhr.status);
+            alert(xhr.statusText);
+            alert(xhr.responseText);
+          } 
+        })
+    });
+</script>
+</html>
